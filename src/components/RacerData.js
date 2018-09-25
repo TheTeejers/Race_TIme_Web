@@ -1,67 +1,42 @@
 import React, { Component } from 'react';
+// import { Link } from 'react-router-dom'
 // import UsersFound from './UsersFound.js';
 
-import axios from 'axios'
+// import axios from 'axios'
 
 
-class RaceData extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      userDataLookup: '',
-      // userLocation: 'null',
-      userLastName: '',
-      userFirstName: '',
-      userIDNumber: ''
-    }
+class RacerData extends Component {
 
-    this.handleSearchInput = this.handleSearchInput.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.getSearch = this.getSearch.bind(this);
-  }
-
-  getSearch(){
-
-    // axios.get(`https://kartlaps.info/v2/${this.state.userLocation}/search/${this.refs.emailInput.value}`)
-    axios.get(`https://kartlaps.info/v2/k1austin/search/tjloughry@gmail.com`)
-    .then((response) => {
-      console.log("Search results should be showing");
-      if (response.data.status === 'ERROR') {
-        alert('no results for that email')
-      } else {
-        let newUserLookup = response.data.search.results
-        console.log(response.data.search.results)
-        this.setState({
-          userDataLookup: newUserLookup
-        })
-        console.log(newUserLookup)
-        this.props.onSubmitQuery(newUserLookup);
-      }
-    })
-  }
-
-  handleSearchInput(e){
-    this.setState({
-      userLocation: e.target.value
-    });
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    this.getSearch();
-  }
 
   render() {
-    // console.log(this.props.foundUsersList)
+    console.log(this.props.foundRacerData.length);
+    console.log(this.props.foundRacerData);
+    // console.log(this.props.foundRacerData.heats.length);
+    console.log(this.props.foundUsersList.length)
+    // console.log(this.props.foundRacerData.length);
+    let uniqueRacerFastestTime = [10000000]
+    let uniqueRacerFastestDate = []
+    let racerName = [this.props.foundRacerData.racerName]
+    for (var i = 0; i < this.props.foundRacerData.length; i++){
+      // if()
+      if (uniqueRacerFastestTime[0] > this.props.foundRacerData[i].bestLapTime){
+        uniqueRacerFastestTime.shift();
+        uniqueRacerFastestTime.push('Fastest Time: ' + this.props.foundRacerData[i].bestLapTime);
+        uniqueRacerFastestDate.shift();
+        uniqueRacerFastestDate.push('Occurred on: ' + this.props.foundRacerData[i].heat.localDateTime)
+      }
+    }
+
     return (
       <div className="App">
 
-
-
+        <div>{racerName}</div>
+        <div>{uniqueRacerFastestTime}</div>
+        <div>{uniqueRacerFastestDate}</div>
 
       </div>
     );
   }
 }
 
-export default RaceData;
+export default RacerData;

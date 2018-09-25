@@ -10,13 +10,15 @@ class Search extends Component {
     super(props);
     this.state = {
       userDataLookup: '',
+      racerDataLookup: '',
       userLocation: '',
-      userIDNumber: '',
-      query: ''
+      userIDNumber: ''
+      // query: ''
     }
 
     this.handleSearchInput = this.handleSearchInput.bind(this);
     this.onSubmitQuery = this.onSubmitQuery.bind(this);
+    this.onSubmitQuery2 = this.onSubmitQuery2.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -33,7 +35,12 @@ class Search extends Component {
     this.setState({
       userDataLookup: results
     })
+  }
 
+  onSubmitQuery2(results){
+    this.setState({
+      racerDataLookup: results
+    })
   }
 
   handleSubmit(event) {
@@ -47,8 +54,8 @@ class Search extends Component {
     return (
       <div className="Search">
         <UserSearch query={this.state.query}  onSubmitQuery={this.onSubmitQuery}/>
-        <UsersFound foundUsersList={this.state.userDataLookup} locationState={this.state.userLocation} />
-        <RacerData foundUsersList={this.state.userDataLookup} />
+        <UsersFound foundUsersList={this.state.userDataLookup} locationState={this.state.userLocation} onSubmitQuery={this.onSubmitQuery} onSubmitQuery2={this.onSubmitQuery2} foundRacerData={this.state.racerDataLookup}/>
+        <RacerData foundUsersList={this.state.userDataLookup} foundRacerData={this.state.racerDataLookup}/>
       </div>
     );
   }
