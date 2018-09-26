@@ -35,17 +35,16 @@ class UsersFound extends Component {
 
   getRacerData(){
     console.log("set racer url", this.state.racerURL)
-    axios.get(this.state.racerURL)
+    axios.get(sessionStorage.getItem('searchedRacerData'))
     .then((response) => {
-      console.log('axios 2 working')
       if (response.data.status === 'ERROR') {
         alert ('click again')
       } else {
         let newRacerData = response.data.racer.heats
         // console.log(response.data.racer.heats)
-        this.setState({
-          racerDataLookup: newRacerData
-        })
+        // this.setState({
+        //   racerDataLookup: newRacerData
+        // })
         console.log('newRacerData', newRacerData)
         this.props.onSubmitQuery2(newRacerData);
       }
@@ -58,13 +57,14 @@ class UsersFound extends Component {
     console.log('first', this.state.racerURL)
     this.setState({
       racerURL: e.target.value
-    },
-    this.toggleIsChecked
-  );
+      },
+      this.toggleIsChecked
+    );
+    sessionStorage.setItem('uniqueRacerUrl', this.state.racerURL)
     e.preventDefault();
 
 
-    console.log(this.state.racerURL)
+    console.log(sessionStorage)
   }
 
 
@@ -93,9 +93,9 @@ class UsersFound extends Component {
     return (
       <div className="App">
         {uniqueUser}
-        {/* <Link to ="/RacerData"> */}
+        <Link to ="/RacerData">
           <button onClick={this.getRacerData}>Select</button>
-        {/* </Link> */}
+        </Link>
       </div>
     );
   }

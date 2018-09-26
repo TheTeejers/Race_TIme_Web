@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Search from './components/Search.js';
-import UserSearch from './components/UserSearch.js';
+import UserSearch1 from './components/UserSearch1.js';
 import Home from './components/Home.js';
 import RacerData from './components/RacerData.js';
 import UsersFound from './components/UsersFound.js';
@@ -13,6 +13,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      title: 'placeholder title',
       userDataLookup: '',
       userLocation: 'null',
       racerDataLookup: ''
@@ -30,8 +31,6 @@ class App extends Component {
       userLocation: e.target.value,
       query: e.target.value
     });
-    console.log('app.js', this.state.query)
-    console.log('app.js', this.state.userLocation)
   }
 
   onSubmitQuery(results){
@@ -53,19 +52,22 @@ class App extends Component {
     this.getSearch();
   }
 
-
+  changeTheWorld = (newTitle) => {
+    this.setState({
+      title:newTitle
+    })
+  }
   render() {
 
     return (
       <div className="App">
-
         <Home />
         <Router basename = {process.env.PUBLIC_URL}>
           <div className='Home'>
             <Route exact path='/' component={ () => <Home /> } />
             <Route path='/Home' component={ () => <Home /> } />
             <Route path='/Search' component={ () => <Search /> } />
-            <Route path='/UserSearch' component={ () => <UserSearch action={this.handleSearchInput}/> } />
+            <Route path='/UserSearch1' component={ () => <UserSearch1 action={this.handleSearchInput}/> } />
             <Route path='/RacerData' component={ () => <RacerData foundUsersList={this.state.userDataLookup} foundRacerData={this.state.racerDataLookup}/> } />
             <Route path='/UserFound' component={ () => <UsersFound foundUsersList={this.state.userDataLookup} locationState={this.state.userLocation} onSubmitQuery={this.onSubmitQuery} onSubmitQuery2={this.onSubmitQuery2} foundRacerData={this.state.racerDataLookup}/> } />
           </div>

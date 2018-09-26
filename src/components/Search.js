@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import UserSearch from '../components/UserSearch.js';
+import UserSearch1 from '../components/UserSearch1.js';
 import UsersFound from '../components/UsersFound.js';
-import RacerData from '../components/RacerData.js';
+// import RacerData from '../components/RacerData.js';
 // import Home from './components/Home.js';
 // import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -12,8 +12,8 @@ class Search extends Component {
       userDataLookup: '',
       racerDataLookup: '',
       userLocation: '',
-      userIDNumber: ''
-      // query: ''
+      userIDNumber: '',
+      query: ''
     }
 
     this.handleSearchInput = this.handleSearchInput.bind(this);
@@ -27,7 +27,8 @@ class Search extends Component {
       userLocation: e.target.value,
       query: e.target.value
     });
-
+    console.log('app.js', this.state.query)
+    console.log('app.js', this.state.userLocation)
   }
 
 
@@ -53,9 +54,9 @@ class Search extends Component {
 
     return (
       <div className="Search">
-        <UserSearch query={this.state.query}  onSubmitQuery={this.onSubmitQuery}/>
+        <UserSearch1 query={this.state.query}  onSubmitQuery={this.onSubmitQuery}/>
         <UsersFound foundUsersList={this.state.userDataLookup} locationState={this.state.userLocation} onSubmitQuery={this.onSubmitQuery} onSubmitQuery2={this.onSubmitQuery2} foundRacerData={this.state.racerDataLookup}/>
-        <RacerData foundUsersList={this.state.userDataLookup} foundRacerData={this.state.racerDataLookup}/>
+        {/* <RacerData foundUsersList={this.state.userDataLookup} foundRacerData={this.state.racerDataLookup}/> */}
       </div>
     );
   }
