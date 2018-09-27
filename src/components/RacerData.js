@@ -68,8 +68,10 @@ handleYearSelect(e){
     let fastestLapType0 = []
     let heatData = []
     let raceType = []
+    let raceKart = []
     let raceYear = []
     let raceSelection = []
+    let kartSelection = []
     let yearSelection = []
     if (typeof this.state.racerHeatsData !== 'undefined'){
       const dataLength = this.state.racerHeatsData.length
@@ -87,6 +89,7 @@ handleYearSelect(e){
 
         //Set the selection for race type
         raceType.indexOf(data.heat.name) === -1 ? raceType.push(data.heat.name) : ''
+        raceKart.indexOf(data.kartNumber) === -1 ? raceKart.push(data.kartNumber) : ''
         raceYear.indexOf(yearOnly) === -1 ? raceYear.push(yearOnly) : ''
 
 
@@ -152,10 +155,27 @@ handleYearSelect(e){
         </tbody>
       )
     }
+
     if (raceType.length > 0) {
       for (var j = 0; j < raceType.length; j++){
         raceSelection.push(
             <option key={j} value={raceType[j]}>{raceType[j]}</option>
+        )
+      }
+    }
+    if (raceKart.length > 0) {
+      for (var k = 0; k < raceKart.length; k++){
+        if (raceKart[k] < 10){
+          raceKart.splice(k, 1, '0'+raceKart[k])
+        }
+      }
+    }
+    raceKart.sort()
+    if (raceKart.length > 0) {
+      for (var k = 0; k < raceKart.length; k++){
+
+        kartSelection.push(
+            <option key={k} value={raceKart[k]}>{raceKart[k]}</option>
         )
       }
     }
@@ -182,6 +202,14 @@ handleYearSelect(e){
             <select  >
               <option value="allRaces">All Race Types</option>
               {raceSelection}
+            </select>
+          </label>
+        </form>
+        <form >
+          <label>
+            <select  >
+              <option value="allKarts">All Karts</option>
+              {kartSelection}
             </select>
           </label>
         </form>
