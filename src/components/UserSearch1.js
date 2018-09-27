@@ -1,68 +1,52 @@
 import React, { Component } from 'react';
-// import UsersFound from './UsersFound.js';
-// import { Link } from 'react-router-dom'
 
-import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 
 class UserSearch extends Component {
   constructor(props){
     super(props);
     this.state = {
-      userDataLookup: '',
-      userLocation: 'null'
+      userDataLookup: 'no input',
+      userLocation: 'no input'
+
     }
 
-    this.handleSearchInput = this.handleSearchInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getSearch = this.getSearch.bind(this);
+    this.handleLocationInput = this.handleLocationInput.bind(this);
+    this.handleUserInput = this.handleUserInput.bind(this);
+    // this.getSearch = this.getSearch.bind(this);
   }
 
-  getSearch(){
-    axios.get(`https://kartlaps.info/v2/${this.state.userLocation}/search/${this.refs.emailInput.value}`)
-    // axios.get(`https://kartlaps.info/v2/k1sanantonio/search/stey`)
-    .then((response) => {
-      console.log("Search results should be showing");
-      if (response.data.status === 'ERROR') {
-        alert('No results for that email')
-      } else {
-        let newUserLookup = response.data.search.results
-        this.setState({
-          userDataLookup: newUserLookup
-        })
-        // console.log(this.state.userLocation, "here we are")
-        console.log(newUserLookup)
-        sessionStorage.setItem('searchedRacerData', `https://kartlaps.info/v2/${this.state.userLocation}/search/${this.refs.emailInput.value}`)
-        console.log('testing', sessionStorage)
-        this.props.onSubmitQuery(newUserLookup);
-      }
-    })
-  }
+  // getSearch(){
+  //     console.log("Search results should be showing for ", sessionStorage.getItem('trackLocation'));
+  // }
 
-  handleSearchInput(e){
+  handleLocationInput(e){
     this.setState({
       userLocation: e.target.value
     });
+    sessionStorage.setItem('trackLocation', this.refs.trackLocationInput.value)
+  }
+
+  handleUserInput(e){
+    sessionStorage.setItem('racerLookupInput', this.refs.emailInput.value)
+    console.log(sessionStorage.getItem('racerLookupInput'))
   }
 
   handleSubmit(e) {
-    this.setState({
-      userLocation: e.target.value
-    });
-    // sessionStorage.setItem('searchedRacerData', `https://kartlaps.info/v2/${this.state.userLocation}/search/${this.refs.emailInput.value}`)
     e.preventDefault();
-    this.getSearch();
-
-    console.log('usersearch', this.state.userLocation)
   }
 
   render() {
+    console.log('location search', sessionStorage.getItem('trackLocation'))
+    console.log('user search', sessionStorage.getItem('racerLookupInput'))
 
     return (
       <div className="App">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} action ='/UsersFound'>
           <label>
-            <select value={this.state.userLocation} onChange={this.handleSearchInput}>
+            <select value={this.state.userLocation} onChange={this.handleLocationInput} ref='trackLocationInput'>
               <option value="">Select Location</option>
               <option value="k1austin">Austin</option>
               <option value="k1addison">Addison</option>
@@ -71,15 +55,11 @@ class UserSearch extends Component {
               <option value="k1irvine">Irvine</option>
             </select>
           </label>
-          <input className='inputText' type='text' placeholder='Email' ref = 'emailInput' />
-          {/* <Link to ="/UsersFound"> */}
-
+          <input className='inputText' type='text' placeholder='Email' ref = 'emailInput'  onChange={this.handleUserInput}/>
+          <Link to ="/UsersFound">
             <input className='searchButton' type="submit" value="Submit"  />
-          {/* </Link> */}
-          </form>
-
-
-
+          </Link>
+        </form>
       </div>
     );
   }

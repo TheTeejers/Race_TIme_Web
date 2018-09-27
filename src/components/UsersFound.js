@@ -1,29 +1,44 @@
 import React, { Component } from 'react';
-import axios from 'axios'
 import { Link } from 'react-router-dom'
-
-// import RacerData from '../components/RacerData.js';
+import axios from 'axios'
 
 
 class UsersFound extends Component {
   constructor(props){
     super(props);
     this.state = {
-      racerURL: 'null!',
+      racerURL: 'no data returned',
       racerDataLookup: '',
       isChecked: false
     }
 
+
     // this.updateCheckbox = this.updateCheckbox.bind(this);
     this.toggleIsChecked = this.toggleIsChecked.bind(this);
     this.handleRacerSelect = this.handleRacerSelect.bind(this);
-    this.getRacerData = this.getRacerData.bind(this);
+    // this.getRacerData = this.getRacerData.bind(this);
+    sessionStorage.setItem('racerLocationSearchURL', `https://kartlaps.info/v2/${sessionStorage.getItem('trackLocation')}/search/${sessionStorage.getItem('racerLookupInput')}`)
+
+
+    console.log("set racer url", sessionStorage.getItem('racerLocationSearchURL'))
+    axios.get(sessionStorage.getItem('racerLocationSearchURL'))
+    .then((response) => {
+      if (response.data.status === 'ERROR'){
+        alert('No data for that Racer')
+      } else {
+        console.log("WORKS!!!", response.data.search.results)
+        let respondedData = response.data.search.results
+        this.setState({
+          racerDataLookup: respondedData
+        })
+      }
+    })
   }
 
-  // handleCheckboxChange(event) {
-  //   console.log("checkbox changed!", event);
-  //   this.setState({isChecked: event.target.checked});
-  // }
+
+
+
+
 
   toggleIsChecked() {
       console.log("toggling isChecked value!");
@@ -33,28 +48,8 @@ class UsersFound extends Component {
       });
   }
 
-  getRacerData(){
-    console.log("set racer url", this.state.racerURL)
-    axios.get(sessionStorage.getItem('searchedRacerData'))
-    .then((response) => {
-      if (response.data.status === 'ERROR') {
-        alert ('click again')
-      } else {
-        let newRacerData = response.data.racer.heats
-        // console.log(response.data.racer.heats)
-        // this.setState({
-        //   racerDataLookup: newRacerData
-        // })
-        console.log('newRacerData', newRacerData)
-        this.props.onSubmitQuery2(newRacerData);
-      }
-    })
-  }
-
-
   handleRacerSelect(e){
     console.log("checkbox changed!");
-    console.log('first', this.state.racerURL)
     this.setState({
       racerURL: e.target.value
       },
@@ -69,17 +64,21 @@ class UsersFound extends Component {
 
 
   render() {
-    console.log(this.props.foundUsersList.length)
-
+    let racerDataArray = this.state.racerDataLookup
+    sessionStorage.setItem('racerLocationSearchURL', `https://kartlaps.info/v2/${sessionStorage.getItem('trackLocation')}/search/${sessionStorage.getItem('racerLookupInput')}`)
+    console.log('location search', sessionStorage.getItem('trackLocation'))
+    console.log('user search', sessionStorage.getItem('racerLookupInput'))
+    console.log('URL search', sessionStorage.getItem('racerLocationSearchURL'))
+    console.log('data logging', racerDataArray)
     let uniqueUser = [];
-    for (var i = 0; i < this.props.foundUsersList.length; i++){
+    for (var i = 0; i < racerDataArray.length; i++){
       uniqueUser.push(
 
         <div key={i}><br/>
-          <input type='checkbox' value={this.props.foundUsersList[i].url} onChange={this.handleRacerSelect} checked={this.state.isChecked}></input>
-          <div>Racer ID: {this.props.foundUsersList[i].id}</div>
-            <div className='racerName'>  Racer Name: {this.props.foundUsersList[i].racerName}  </div>
-            <div className='actualName'>  Real Name: {this.props.foundUsersList[i].realFirstName} {this.props.foundUsersList[i].realLastName}  </div>
+          <input type='checkbox' value={racerDataArray[i].url} onChange={this.handleRacerSelect} checked={this.state.isChecked}></input>
+          <div>Racer ID: {racerDataArray[i].id}</div>
+            <div className='racerName'>  Racer Name: {racerDataArray[i].racerName}  </div>
+            <div className='actualName'>  Real Name: {racerDataArray[i].realFirstName} {racerDataArray[i].realLastName}  </div>
 
 
 
