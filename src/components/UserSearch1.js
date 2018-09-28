@@ -59,6 +59,7 @@ class UserSearch extends Component {
           <Link to ="/UsersFound">
             <input className='searchButton' type="submit" value="Submit"  />
           </Link>
+
         </form>
       </div>
     );

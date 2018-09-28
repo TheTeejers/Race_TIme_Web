@@ -5,6 +5,7 @@ import UserSearch1 from './UserSearch1.js';
 import Home from './Home.js';
 import RacerData from './RacerData.js';
 import UsersFound from './UsersFound.js';
+import Heat from './Heat.js';
 
 const Routes = () => (
   <main>
@@ -15,6 +16,7 @@ const Routes = () => (
       <Route path='/UserSearch1' component={ () => <UserSearch1 /> } />
       <Route path='/RacerData' component={ () => <RacerData /> } />
       <Route path='/UsersFound' component={ () => <UsersFound /> }/>
+      <Route path='/Heat' component={ () => <Heat /> }/>
     </div>
   </main>
 )

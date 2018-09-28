@@ -17,6 +17,10 @@ class UsersFound extends Component {
     this.toggleIsChecked = this.toggleIsChecked.bind(this);
     this.handleRacerSelect = this.handleRacerSelect.bind(this);
     // this.getRacerData = this.getRacerData.bind(this);
+    sessionStorage.setItem('selected year', 'allYears')
+    sessionStorage.setItem('selected kart', 'allKarts')
+    sessionStorage.setItem('selected race type', 'allRaces')
+    sessionStorage.setItem('selected race track', 'allTracks')
     sessionStorage.setItem('racerLocationSearchURL', `https://kartlaps.info/v2/${sessionStorage.getItem('trackLocation')}/search/${sessionStorage.getItem('racerLookupInput')}`)
 
 
