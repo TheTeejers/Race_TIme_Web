@@ -24,8 +24,14 @@ class RacerData extends Component {
     this.handleRaceTypeSelect = this.handleRaceTypeSelect.bind(this);
     this.handleRaceTrackSelect = this.handleRaceTrackSelect.bind(this);
     this.handleHeatSelect = this.handleHeatSelect.bind(this);
+    this.handleReload = this.handleReload.bind(this);
 
-    console.log('unique url', sessionStorage.getItem('uniqueRacerUrl'));
+
+    sessionStorage.setItem('selected year', 'allYears')
+    sessionStorage.setItem('selected kart', 'allKarts')
+    sessionStorage.setItem('selected race type', 'allRaces')
+    sessionStorage.setItem('selected race track', 'allTracks')
+    // console.log('unique url', sessionStorage.getItem('uniqueRacerUrl'));
     axios.get(sessionStorage.getItem('uniqueRacerUrl'))
     .then((response) => {
       if (response.data.status === 'ERROR') {
@@ -42,8 +48,10 @@ class RacerData extends Component {
           racerDataName: populatedRacerDataName
         })
         sessionStorage.setItem('Racer Name', populatedRacerDataName)
-        console.log(populatedFullRacerData)
-        console.log(populatedRacerDataHeats)
+        // sessionStorage.setItem('selected race track', populatedFullRacerData.location.id)
+
+        // console.log(populatedFullRacerData.location.id)
+        // console.log(populatedRacerDataHeats)
       }
     })
   }
@@ -89,12 +97,21 @@ handleHeatSelect(e){
 }
 
 handleSaveRacer(e){
-  localStorage.setItem(sessionStorage.getItem('Racer Name'), sessionStorage.getItem('uniqueRacerUrl'))
+  localStorage.setItem(sessionStorage.getItem('Racer Name') + ' at ' + sessionStorage.getItem('trackLocation'), sessionStorage.getItem('uniqueRacerUrl'))
   console.log(localStorage)
+  window.location.reload()
+  // localStorage.clear()
+}
+
+handleReload(e){
+  window.location.reload()
+  // localStorage.clear()
 }
 
 
   render() {
+    // console.log(sessionStorage.getItem('selected race track'));
+    let count = 1
     let racerName = this.state.racerDataName
     let currentPoints = this.state.racerCurrentPoints
 //TODO put in location to show on screen
@@ -134,10 +151,10 @@ handleSaveRacer(e){
 
 
         //Set the selection for race type
-        raceType.indexOf(data.heat.name) === -1 ? raceType.push(data.heat.name): '';
-        raceKart.indexOf(data.kartNumber) === -1 ? raceKart.push(data.kartNumber) : '';
-        raceYear.indexOf(yearOnly) === -1 ? raceYear.push(yearOnly) : '';
-        trackNumber.indexOf(trackNumberOnly) === -1 ? trackNumber.push(trackNumberOnly) : '';
+        // raceType.indexOf(data.heat.name) === -1 ? raceType.push(data.heat.name): '';
+        // raceKart.indexOf(data.kartNumber) === -1 ? raceKart.push(data.kartNumber) : '';
+        // raceYear.indexOf(yearOnly) === -1 ? raceYear.push(yearOnly) : '';
+        // trackNumber.indexOf(trackNumberOnly) === -1 ? trackNumber.push(trackNumberOnly) : '';
 
 
 
@@ -150,6 +167,11 @@ handleSaveRacer(e){
         || sessionStorage.getItem('selected race type') === 'allRaces')
         && (sessionStorage.getItem('selected race track') === trackNumberOnly
         || sessionStorage.getItem('selected race track') === 'allTracks')){
+          raceType.indexOf(data.heat.name) === -1 ? raceType.push(data.heat.name): count +=1;
+          raceKart.indexOf(data.kartNumber) === -1 ? raceKart.push(data.kartNumber) : count +=1;
+          raceYear.indexOf(yearOnly) === -1 ? raceYear.push(yearOnly) : count +=1;
+          trackNumber.indexOf(trackNumberOnly) === -1 ? trackNumber.push(trackNumberOnly) : count +=1;
+          // console.log(count)
           let heatUrl = []
           heatUrl.push(data.heat.id)
           sessionStorage.setItem(heatUrl[i], data.heat.url)
@@ -282,7 +304,9 @@ handleSaveRacer(e){
         <div>Fastest time was {fastestLapTime0} seconds in kart {fastestLapKart0} on  {fastestLapDate0} ({fastestLapType0} heat)</div><br/>
         {/* <div>Fastest time on T2 was {fastestLapTime1} in kart {fastestLapKart1} on  {fastestLapDate1}</div><br/> */}
 
-
+        <div>
+          <button onClick={this.handleReload}>Refresh Data</button>
+        </div><br/>
 
 
         <form >

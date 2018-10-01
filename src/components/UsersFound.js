@@ -9,12 +9,12 @@ class UsersFound extends Component {
     this.state = {
       racerURL: 'no data returned',
       racerDataLookup: '',
-      isChecked: false
+      // isChecked: false
     }
 
 
     // this.updateCheckbox = this.updateCheckbox.bind(this);
-    this.toggleIsChecked = this.toggleIsChecked.bind(this);
+    // this.toggleIsChecked = this.toggleIsChecked.bind(this);
     // this.handleRacerSelect = this.handleRacerSelect.bind(this);
     // this.getRacerData = this.getRacerData.bind(this);
 
@@ -47,13 +47,13 @@ class UsersFound extends Component {
 
 
 
-  toggleIsChecked() {
-      console.log("toggling isChecked value!");
-      this.setState({
-        // isChecked: true
-        isChecked: !this.state.isChecked
-      });
-  }
+  // toggleIsChecked() {
+  //     console.log("toggling isChecked value!");
+  //     this.setState({
+  //       // isChecked: true
+  //       isChecked: !this.state.isChecked
+  //     });
+  // }
 
   // handleRacerSelect(e){
   //   console.log("checkbox changed!");

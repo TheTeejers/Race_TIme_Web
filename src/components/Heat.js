@@ -76,14 +76,25 @@ class Heat extends Component {
                   console.log(lapData);
           let fastestLap =[1000000]
           let fastestLapString = ''
+          let allLaps = []
+          let averageLap = []
           for (var k = 0; k < lapData.length; k++){
+            allLaps.push(lapData[k].seconds)
+
             if(lapData[k].seconds < fastestLap[0]){
               fastestLap.shift()
               fastestLap.push(lapData[k].seconds)
               fastestLapString = fastestLap[0].toString().padEnd(6,0)
               console.log(fastestLapString)
+
             }
           }
+          console.log(allLaps)
+          function add(a, b) {
+              return a + b;
+          }
+          averageLap.push((allLaps.reduce(add,0)/allLaps.length).toFixed(3))
+
           fastestLap.shift()
           fastestLap.push(fastestLapString)
           heatResults.push(
@@ -99,6 +110,7 @@ class Heat extends Component {
                 </td>
                 <td>{fastestLap}</td>
                 <td>{lapData.length}</td>
+                <td>{averageLap}</td>
               </tr>
             </tbody>
           )
@@ -124,6 +136,7 @@ class Heat extends Component {
             <th>Racer Name</th>
             <th>Fastest Time</th>
             <th>Number of Laps</th>
+            <th>Average Lap Time</th>
           </tr>
         </thead>
         {heatResults}
