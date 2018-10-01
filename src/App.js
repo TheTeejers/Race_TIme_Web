@@ -11,8 +11,20 @@ import Routes from './components/Routes.js';
 
 class App extends Component {
   render() {
+    let data = [];
+    // let data = JSON.parse(localStorage);
+    console.log('local storage', localStorage)
+    for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+      data.push(localStorage.key( i ))
+      console.log(localStorage.getItem(localStorage.key(i)));
+
+    }
+
+    console.log(data);
+
     return (
       <div className="App">
+        {data}
         <form action='/UserSearch1'>
           <input className='searchButton' type="submit" value='Get Profile' />
         </form>

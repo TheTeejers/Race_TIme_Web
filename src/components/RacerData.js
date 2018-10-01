@@ -41,6 +41,7 @@ class RacerData extends Component {
           racerCurrentPoints: populatedRacerDataPoints,
           racerDataName: populatedRacerDataName
         })
+        sessionStorage.setItem('Racer Name', populatedRacerDataName)
         console.log(populatedFullRacerData)
         console.log(populatedRacerDataHeats)
       }
@@ -87,6 +88,11 @@ handleHeatSelect(e){
   sessionStorage.setItem('selected heat', this.refs.heatSelectLink.value)
 }
 
+handleSaveRacer(e){
+  localStorage.setItem(sessionStorage.getItem('Racer Name'), sessionStorage.getItem('uniqueRacerUrl'))
+  console.log(localStorage)
+}
+
 
   render() {
     let racerName = this.state.racerDataName
@@ -126,20 +132,12 @@ handleHeatSelect(e){
         let trackNumberAll = data.heat.name.split(' ')
         let trackNumberOnly = trackNumberAll[trackNumberAll.length-1]
 
-        // if (trackNumberAll.length > 1){
-        //   trackNumberOnly.push(trackNumberAll[trackNumberAll.length-1])
-        // } else {
-        //   trackNumberOnly.push('T1')
-        // }
 
         //Set the selection for race type
         raceType.indexOf(data.heat.name) === -1 ? raceType.push(data.heat.name): '';
         raceKart.indexOf(data.kartNumber) === -1 ? raceKart.push(data.kartNumber) : '';
         raceYear.indexOf(yearOnly) === -1 ? raceYear.push(yearOnly) : '';
         trackNumber.indexOf(trackNumberOnly) === -1 ? trackNumber.push(trackNumberOnly) : '';
-
-
-
 
 
 
@@ -152,26 +150,29 @@ handleHeatSelect(e){
         || sessionStorage.getItem('selected race type') === 'allRaces')
         && (sessionStorage.getItem('selected race track') === trackNumberOnly
         || sessionStorage.getItem('selected race track') === 'allTracks')){
-          // console.log(data.heat.name);
-          // console.log(sessionStorage.getItem('selected race type'));
           let heatUrl = []
-          let ii = i
           heatUrl.push(data.heat.id)
-          console.log(heatUrl)
-          sessionStorage.setItem(heatUrl[ii], data.heat.url)
-          console.log(sessionStorage.getItem(heatUrl[ii]));
+          sessionStorage.setItem(heatUrl[i], data.heat.url)
+          function doTheClick(url){
+              let onClick = function(){
+              sessionStorage.setItem('selected heat', url)
+            }
+            return onClick
+          }
           heatData.push(
+
             <tbody key={i}>
               <tr>
                 <td>{dataLength - i}</td>
                 <td>
-                  <Link to='/Heat'>
-                  //TODO get the actual value of button rather than the last in array
-                    <button onClick={this.handleHeatSelect} ref='heatSelectLink' value={sessionStorage.getItem(heatUrl[ii])}>{data.heat.name}</button>
+                  <Link  to='/Heat'>
+                    <button onClick={doTheClick(sessionStorage.getItem(heatUrl[i]))} ref='heatSelectLink' value={sessionStorage.getItem(heatUrl[i])}>
+                      {data.heat.name}
+                    </button>
                   </Link>
                 </td>
 
-                <td>{heatUrl}</td>
+                {/* <td>{heatUrl}</td> */}
                 <td>{data.kartNumber}</td>
                 <td>{dateOnly}</td>
                 <td>{data.pointsImpact}</td>
@@ -180,7 +181,9 @@ handleHeatSelect(e){
                 <td>{data.finalPosition}</td>
               </tr>
             </tbody>
+
           )
+
         }
         //Set race selection list
 
@@ -255,6 +258,13 @@ handleHeatSelect(e){
         )
       }
     }
+    if (raceYear.length > 0) {
+      for (var m = 0; m < raceYear.length; m++){
+        yearSelection.push(
+            <option key={m} value={raceYear[m]}>{raceYear[m]}</option>
+        )
+      }
+    }
     if (trackNumber.length > 0) {
       for (var n = 0; n < trackNumber.length; n++){
         trackSelection.push(
@@ -262,12 +272,11 @@ handleHeatSelect(e){
         )
       }
     }
-
     return (
       <div className="App">
 
         <br/><div>{racerName}</div><br/>
-        <div><button>Remember Racer at {sessionStorage.getItem('trackLocation')}</button></div><br/>
+        <div><button onClick={this.handleSaveRacer} ref='racerSave' value='2'>Remember Racer at {sessionStorage.getItem('trackLocation')}</button></div><br/>
         <div>Total Races: {totalRaces}</div><br/>
         <div>Current Points: {currentPoints}</div><br/>
         <div>Fastest time was {fastestLapTime0} seconds in kart {fastestLapKart0} on  {fastestLapDate0} ({fastestLapType0} heat)</div><br/>

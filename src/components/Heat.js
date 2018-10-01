@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
+
 import axios from 'axios'
 
 class Heat extends Component {
@@ -38,9 +40,6 @@ class Heat extends Component {
         heatRacers: fullHeatRacers,
         heatLaps: fullHeatLaps
       })
-
-
-
     }
   })
 }
@@ -53,21 +52,60 @@ class Heat extends Component {
     let heatDate = thisHeat.localDateTime
     let heatWinType = thisHeat.winBy
     let racersInHeat = this.state.heatRacers
-
+    let racerLaps = this.state.heatLaps
     let heatResults = []
+
     // let heatInformation = []
-    console.log(racersInHeat);
-    // console.log(racersInHeat);
+    console.log('racers', racersInHeat);
+    console.log('laps', racerLaps);
+
     for (var i = 0; i < racersInHeat.length; i++){
-      console.log(racersInHeat[i].racerName)
-      heatResults.push(
-        <tbody key={i}><br/>
-          <tr>
-            <td>{racersInHeat[i].racerName}</td>
-            <td></td>
-          </tr>
-        </tbody>
-      )
+      function doTheClick(url){
+          let onClick = function(){
+          sessionStorage.setItem('uniqueRacerUrl', url)
+        }
+        return onClick
+      }
+      for (var j = 0; j < this.state.heatLaps.length; j++){
+        if(racersInHeat[i].id ===racerLaps[j].racerId){
+          console.log(racersInHeat[i].racerName)
+          console.log(racersInHeat[i])
+          console.log(racerLaps[j].racerLaps.length);
+
+          let lapData = racerLaps[j].racerLaps
+                  console.log(lapData);
+          let fastestLap =[1000000]
+          let fastestLapString = ''
+          for (var k = 0; k < lapData.length; k++){
+            if(lapData[k].seconds < fastestLap[0]){
+              fastestLap.shift()
+              fastestLap.push(lapData[k].seconds)
+              fastestLapString = fastestLap[0].toString().padEnd(6,0)
+              console.log(fastestLapString)
+            }
+          }
+          fastestLap.shift()
+          fastestLap.push(fastestLapString)
+          heatResults.push(
+            <tbody key={i}>
+              <tr>
+                <td>{lapData[lapData.length-1].position}</td>
+                <td>
+                  <Link to='/RacerData'>
+                    <button onClick={doTheClick(racersInHeat[i].url)}>
+                      {racersInHeat[i].racerName}
+                    </button>
+                  </Link>
+                </td>
+                <td>{fastestLap}</td>
+                <td>{lapData.length}</td>
+              </tr>
+            </tbody>
+          )
+        }
+      }
+
+
     }
 
 
@@ -85,12 +123,7 @@ class Heat extends Component {
             <th>Position</th>
             <th>Racer Name</th>
             <th>Fastest Time</th>
-            <th>Kart</th>
-            <th>Date</th>
-            <th>Points Earned</th>
-            <th>Total Points</th>
-            <th>Best Time</th>
-            <th>Position</th>
+            <th>Number of Laps</th>
           </tr>
         </thead>
         {heatResults}
