@@ -103,7 +103,7 @@ class Heat extends Component {
                 <td>{lapData[lapData.length-1].position}</td>
                 <td>
                   <Link to='/RacerData'>
-                    <button onClick={doTheClick(racersInHeat[i].url)}>
+                    <button className='heatLink' onClick={doTheClick(racersInHeat[i].url)}>
                       {racersInHeat[i].racerName}
                     </button>
                   </Link>
@@ -123,12 +123,12 @@ class Heat extends Component {
 
     return (
     <div className="App">
-      <div>{sessionStorage.getItem('selected heat')}</div>
-      <div>{heatId}</div>
-      <div>{heatLocation}</div>
-      <div>{heatName}</div>
-      <div>{heatDate}</div>
-      <div>{heatWinType}</div>
+      {/* <div>{sessionStorage.getItem('selected heat')}</div> */}
+      <div className='racerInfo'>Heat ID: <span className='numberOutput'>{heatId}</span></div>
+      <div className='racerInfo'>Location: <span className='numberOutput'>{heatLocation}</span></div>
+      <div className='racerInfo'>Race Type: <span className='numberOutput'>{heatName}</span></div>
+      <div className='racerInfo'>Date and TIme: <span className='numberOutput'>{heatDate}</span></div>
+      <div className='racerInfo'>Win By: <span className='numberOutput'>{heatWinType}</span></div>
       <table>
         <thead>
           <tr>

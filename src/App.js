@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Routes from './components/Routes.js';
+import Footer from './components/Footer.js';
 // import Search from './components/Search.js';
 // import UserSearch1 from './components/UserSearch1.js';
 // import Home from './components/Home.js';
@@ -16,7 +17,7 @@ class App extends Component {
       if (localStorage.length > 0){
         saveButton.push(
           <Link  key = {1} to='/SavedRacers'>
-            <input className='searchButton' type="submit" value='Saved Racers' />
+            <input className='button inputButton searchButton' type="submit" value='Saved Racers' />
           </Link>
         )
       } else {
@@ -26,12 +27,18 @@ class App extends Component {
 
     return (
       <div className="App">
-
-        <Link to='/UserSearch1'>
-          <input className='searchButton' type="submit" value='Get Profile' />
-        </Link>
-        {saveButton}
+        <div className = 'mainTop'>
+          <nav className='mainButtons'>
+            <Link to='/UserSearch1'>
+              <input className='button inputButton searchButton' type="submit" value='Get Profile' />
+            </Link>
+            {saveButton}
+          </nav>
+          <Footer />
+        </div>
         <Routes />
+
+
       </div>
     );
   }

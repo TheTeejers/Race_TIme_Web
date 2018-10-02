@@ -48,6 +48,7 @@ class RacerData extends Component {
           racerDataName: populatedRacerDataName
         })
         sessionStorage.setItem('Racer Name', populatedRacerDataName)
+        console.log(sessionStorage.getItem('Racer Name'));
         // sessionStorage.setItem('selected race track', populatedFullRacerData.location.id)
 
         // console.log(populatedFullRacerData.location.id)
@@ -110,7 +111,13 @@ handleReload(e){
 
 
   render() {
-    // console.log(sessionStorage.getItem('selected race track'));
+    console.log(sessionStorage.getItem('Racer Name'));
+
+sessionStorage.setItem('Racer Name', sessionStorage.getItem('Racer Name'))
+
+console.log(sessionStorage.getItem('Racer Name'));
+
+
     let count = 1
     let racerName = this.state.racerDataName
     let currentPoints = this.state.racerCurrentPoints
@@ -127,12 +134,24 @@ handleReload(e){
     let raceType = []
     let raceKart = []
     let raceYear = []
-
     let trackNumber = []
     let raceSelection = []
     let kartSelection = []
     let yearSelection = []
     let trackSelection = []
+    let rememberButton = [<button key = {0} className='button inputButton searchButton' onClick={this.handleSaveRacer} ref='racerSave' value='2'>Remember Racer at {sessionStorage.getItem('trackLocation')}</button>]
+    let alreadySavedRacer = []
+
+    for (var z = 0; z < localStorage.length; z++){
+      if (localStorage.key(z) === sessionStorage.getItem('Racer Name') + ' at ' + sessionStorage.getItem('trackLocation')){
+        rememberButton.shift()
+        alreadySavedRacer.push(
+          <div key={0}>[  Racer Is In Saved List  ]</div>
+        )
+      }
+    }
+
+
     if (typeof this.state.racerHeatsData !== 'undefined'){
       const dataLength = this.state.racerHeatsData.length
       totalRaces.push(dataLength)
@@ -151,8 +170,8 @@ handleReload(e){
 
 
         //Set the selection for race type
-        // raceType.indexOf(data.heat.name) === -1 ? raceType.push(data.heat.name): '';
         // raceKart.indexOf(data.kartNumber) === -1 ? raceKart.push(data.kartNumber) : '';
+        // raceType.indexOf(data.heat.name) === -1 ? raceType.push(data.heat.name): '';
         // raceYear.indexOf(yearOnly) === -1 ? raceYear.push(yearOnly) : '';
         // trackNumber.indexOf(trackNumberOnly) === -1 ? trackNumber.push(trackNumberOnly) : '';
 
@@ -188,7 +207,7 @@ handleReload(e){
                 <td>{dataLength - i}</td>
                 <td>
                   <Link  to='/Heat'>
-                    <button onClick={doTheClick(sessionStorage.getItem(heatUrl[i]))} ref='heatSelectLink' value={sessionStorage.getItem(heatUrl[i])}>
+                    <button className='heatLink' onClick={doTheClick(sessionStorage.getItem(heatUrl[i]))} ref='heatSelectLink' value={sessionStorage.getItem(heatUrl[i])}>
                       {data.heat.name}
                     </button>
                   </Link>
@@ -297,16 +316,18 @@ handleReload(e){
     return (
       <div className="App">
 
-        <br/><div>{racerName}</div><br/>
-        <div><button onClick={this.handleSaveRacer} ref='racerSave' value='2'>Remember Racer at {sessionStorage.getItem('trackLocation')}</button></div><br/>
-        <div>Total Races: {totalRaces}</div><br/>
-        <div>Current Points: {currentPoints}</div><br/>
-        <div>Fastest time was {fastestLapTime0} seconds in kart {fastestLapKart0} on  {fastestLapDate0} ({fastestLapType0} heat)</div><br/>
-        {/* <div>Fastest time on T2 was {fastestLapTime1} in kart {fastestLapKart1} on  {fastestLapDate1}</div><br/> */}
 
         <div>
-          <button onClick={this.handleReload}>Refresh Data</button>
-        </div><br/>
+          {rememberButton}
+          <button className='button inputButton searchButton' onClick={this.handleReload}>Refresh Data</button>
+        </div>
+        <div className='racerName'>{racerName}</div>
+        <div className='savedInfo'>{alreadySavedRacer}</div><br/>
+        <div  className='racerInfo'>Total Races: <span className='numberOutput'>{totalRaces}</span></div><br/>
+        <div className='racerInfo'>Current Points: <span className='numberOutput'>{currentPoints}</span></div><br/>
+        <div className='racerInfo'>Fastest time was <span className='numberOutput'>{fastestLapTime0}</span> seconds in kart <span className='numberOutput'>{fastestLapKart0}</span> on  <span className='numberOutput'>{fastestLapDate0}</span></div> <div  className='racerInfo'>(<span className='numberOutput'>{fastestLapType0} heat</span>)</div><br/>
+        {/* <div>Fastest time on T2 was {fastestLapTime1} in kart {fastestLapKart1} on  {fastestLapDate1}</div><br/> */}
+
 
 
         <form >
@@ -316,7 +337,8 @@ handleReload(e){
               {trackSelection}
             </select>
           </label>
-        </form>
+        </form><br/>
+
         <form >
           <label>
             <select value={sessionStorage.getItem('selected race type')} onChange={this.handleRaceTypeSelect} ref='raceTypeSelectInput'>
@@ -324,7 +346,8 @@ handleReload(e){
               {raceSelection}
             </select>
           </label>
-        </form>
+        </form><br/>
+
         <form >
           <label>
             <select value={sessionStorage.getItem('selected kart')} onChange={this.handleKartSelect} ref='kartSelectInput'>
@@ -332,7 +355,7 @@ handleReload(e){
               {kartSelection}
             </select>
           </label>
-        </form>
+        </form><br/>
 
         <form >
           <label>
@@ -341,28 +364,29 @@ handleReload(e){
               {yearSelection}
             </select>
           </label>
-        </form>
+        </form><br/>
 
 
 
 
+        <div className='tableContainer'>
+          <table>
+            <thead>
+              <tr>
+                <th>Race</th>
+                <th>Heat Type</th>
+                <th>Kart</th>
+                <th>Date</th>
+                <th>Points Earned</th>
+                <th>Total Points</th>
+                <th>Best Time</th>
+                <th>Position</th>
+              </tr>
+            </thead>
+            {heatData}
 
-        <table>
-          <thead>
-            <tr>
-              <th>Race</th>
-              <th>Heat Type</th>
-              <th>Kart</th>
-              <th>Date</th>
-              <th>Points Earned</th>
-              <th>Total Points</th>
-              <th>Best Time</th>
-              <th>Position</th>
-            </tr>
-          </thead>
-          {heatData}
-
-        </table>
+          </table>
+        </div>
 
 
       </div>

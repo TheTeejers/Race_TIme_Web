@@ -1,28 +1,281 @@
-.App {
+@import url('https://fonts.googleapis.com/css?family=Black+Ops+One|Cabin+Sketch|Faster+One|Orbitron|Permanent+Marker|Rock+Salt');
+
+/* font-family: 'Permanent Marker', cursive;
+font-family: 'Cabin Sketch', cursive;
+font-family: 'Rock Salt', cursive;
+font-family: 'Black Ops One', cursive;
+font-family: 'Faster One', cursive;
+font-family: 'Orbitron', sans-serif;*/
+
+#root {
+  width: auto;
+}
+body {
   text-align: center;
+  background: #53727c;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+/* .center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+} */
+
+.button{
+  display: inline-block;
+  padding: 15px;
+  margin: 5px 15px;
+  height: auto;
+  width: auto;
+  background: #348AA7;
+  border: none;
+  outline: none;
   color: white;
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 20px;
+  border-radius: 3px;
+  box-shadow: 0 5px 0px #1b4756;
+  border-bottom: 2px solid #326e82;
 }
 
-.App-title {
-  font-size: 1.5em;
+.button:hover{
+  background-color: #326e82;
+  box-shadow: 0 5px 1px #1b4756;
+  border-bottom: 2px solid #1b4756;
+  transition: all 0.05s ease-in;
 }
 
-.App-intro {
-  font-size: large;
+.button:active{
+  transform:translateY(4px);
+  border-bottom-width: 2px;
+  box-shadow: none;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.tableContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+p {
+  font-family: 'Orbitron', sans-serif
+}
+
+table {
+  margin-bottom: 5em;
+
+  border: 1px solid black;
+  background: #348AA7;
+}
+
+th, td {
+  flex-grow: 0;
+  margin: 20%;
+  border: 1px solid black;
+  background: white;
+}
+
+th {
+  font-family: 'Black Ops One', cursive;
+  /* padding: 0px 20px; */
+}
+
+td {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.25em;
+  height: 30px;
+  /* width: auto; */
+  font-weight: bold;
+}
+
+.racerName {
+font-family: 'Faster One', cursive;
+font-size: 100px
+}
+
+.numberOutput{
+  font-family: 'Orbitron', sans-serif;
+}
+
+.racerInfo {
+  font-family: 'Black Ops One', cursive;
+  font-size: 2em;
+  margin: 0px 5%;
+}
+
+.heatLink {
+  width: 100%;
+  height: auto;
+  /* font-size: 100%; */
+  /* padding: 0px 10%; */
+  font-family: 'Orbitron', sans-serif;
+}
+
+.heatLink:hover {
+  background-color: #53727c;
+}
+
+.savedInfo {
+  font-size: .75em;
+  font-family: 'Orbitron', sans-serif;
+}
+
+select, .inputText, .searchButton {
+  font-size: 20px;
+  font-family: 'Orbitron', sans-serif
+}
+
+option:hover {
+  font-style: italic;
+}
+
+.Footer {
+  position:fixed;
+  left:0;
+  bottom:0;
+  right:0;
+   width:100%;
+   height:60px;
+   line-height: .5em;  /* Height of the footer */
+   background: #53727c;
+}
+
+@media (max-width: 900px) {
+  .App{
+    width: 100%;
+  }
+
+  p {
+    font-size: .7em;
+  }
+
+  .button{
+    height: .25em;
+    width: auto;
+    font-size: .75em;
+  }
+
+}
+
+@media (min-width: 810px) and (max-width: 900px) {
+  table {
+    background: red;
+  }
+  th, td {
+    font-size: 1em;
+  }
+}
+
+@media (min-width: 725px) and (max-width: 810px) {
+  table {
+    background: green;
+  }
+  th, td {
+    font-size: 1.25em;
+  }
+  .racerName {
+    font-size: 85px;
+  }
+}
+
+@media (min-width: 560px) and (max-width: 725px) {
+  table {
+    background: purple;
+  }
+  th, td {
+    font-size: .75em;
+  }
+  .racerName {
+    font-size: 85px;
+  }
+}
+
+@media (min-width: 420px) and (max-width: 560px) {
+  table {
+    /* font-size: .3em; */
+    background: white;
+  }
+
+  th, td {
+    font-size: .5em;
+    font-weight: bold;
+  }
+
+  .racerName {
+    font-size: 55px;
+  }
+
+  .racerInfo {
+    font-size: 1em;
+  }
+
+  select {
+    font-size: .75em;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 420px) {
+  table {
+    /* font-size: .3em; */
+    background: yellow;
+  }
+
+  th, td {
+    font-size: .55em;
+    font-weight: bold;
+  }
+
+  .racerName {
+    font-size: 55px;
+  }
+
+  .racerInfo {
+    font-size: 1em
+  }
+
+  select {
+    font-size: .75em;
+  }
+}
+
+@media (min-width: 10px) and (max-width: 320px) {
+
+  .button{
+    height: .25em;
+    width: auto;
+    font-size: .75em;
+  }
+
+  table {
+    /* font-size: .3em; */
+    background: orange;
+  }
+
+  th, td {
+    font-size: .45em;
+    font-weight: bold;
+  }
+
+  .racerName {
+    font-size: 45px;
+      }
+
+  .racerInfo {
+    font-size: 1em
+  }
+
+  select {
+    font-size: .75em;
+  }
 }

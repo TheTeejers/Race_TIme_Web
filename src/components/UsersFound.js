@@ -97,7 +97,7 @@ class UsersFound extends Component {
       uniqueUser.push(
         <div key={i}><br/>
             <Link to ="/RacerData">
-              <button onClick={doTheClick(racerDataArray[i].url)}>
+              <button className = 'button' onClick={doTheClick(racerDataArray[i].url)}>
                 <div>Racer ID: {racerDataArray[i].id}</div>
                 <div className='racerName'>  Racer Name: {racerDataArray[i].racerName}  </div>
                 <div className='actualName'>  Real Name: {racerDataArray[i].realFirstName} {racerDataArray[i].realLastName}  </div>

@@ -7,6 +7,8 @@ import RacerData from './RacerData.js';
 import UsersFound from './UsersFound.js';
 import Heat from './Heat.js';
 import SavedRacers from './SavedRacers.js';
+import Footer from './Footer.js';
+import Donate from './Donate.js';
 
 const Routes = () => (
   <main>
@@ -19,7 +21,11 @@ const Routes = () => (
       <Route path='/UsersFound' component={ () => <UsersFound /> }/>
       <Route path='/Heat' component={ () => <Heat /> }/>
       <Route path='/SavedRacers' component={ () => <SavedRacers /> }/>
+      <Route path='/Footer' component={ () => <Footer /> }/>
+      <Route path='/Donate' component={ () => <Donate /> }/>
+
     </div>
+    <Footer />
   </main>
 )
 
